@@ -24,7 +24,7 @@ function skill(id) {
 	} else {
 		desc = ''
 	}
-	var effect = page.match("<center><font color=blue size=2><b>(.+?)</b></font></center>");
+	var effect = page.match("<center><font color=blue size=2><b>([^]+?)</b></font></center>");
 	if (effect && effect.length > 1) {
 		effect = effect[1]
 	} else {
