@@ -24,6 +24,12 @@ function skill(id) {
 	} else {
 		desc = ''
 	}
+	var effect = page.match("<center><font color=blue size=2><b>(.+?)</b></font></center>");
+	if (effect && effect.length > 1) {
+		effect = effect[1]
+	} else {
+		effect = ""
+	}
 	
 	var data_link = `https://kol.coldfront.net/thekolwiki/index.php?title=Data:${urlEncode(sk.name)}&action=edit`;
 	printHtml(`<a href="${data_link}">${data_link}</a>`)
@@ -40,7 +46,8 @@ function skill(id) {
 	print();
 	var text = `{{skill
 	|skillid=${id}
-	|description=${desc}
+	|description=${desc}${effect != '' ? `
+	|effect=${effect}` : ''}
 	|type=Noncombat
 	|mpcost=0
 	|permable=0
