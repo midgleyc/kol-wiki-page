@@ -18,6 +18,12 @@ function replaceElements(input) {
 function skill(id) {
 	var sk = Skill.get(id);
 	var page = visitUrl("desc_skill.php?whichskill=" + sk.id);
+	var desc = page.match('<blockquote class=small>([^]+)</blockquote>')
+	if (desc && desc.length > 1) {
+		desc = desc[1]
+	} else {
+		desc = ''
+	}
 	
 	var data_link = `https://kol.coldfront.net/thekolwiki/index.php?title=Data:${urlEncode(sk.name)}&action=edit`;
 	printHtml(`<a href="${data_link}">${data_link}</a>`)
@@ -26,6 +32,24 @@ function skill(id) {
 	name=${sk.name}|
 	image=${sk.image}|
 	{{{1|}}}}}</includeonly><noinclude>{{{{FULLPAGENAME}}|format=skill/meta}}</noinclude>`
+	printHtml(text.replace(/</g, '&lt;'));
+	print();
+	
+	var link = `https://kol.coldfront.net/thekolwiki/index.php?title=${urlEncode(sk.name)}&action=edit`
+	printHtml(`<a href="${link}">${link}</a>`)
+	print();
+	var text = `{{skill
+	|skillid=${id}
+	|description=${desc}
+	|type=Noncombat
+	|mpcost=0
+	|permable=0
+	|once=day
+	|source=[[august scepter]]
+	|permable=0
+	|explain=
+	|usemsg=
+	}}`
 	printHtml(text.replace(/</g, '&lt;'));
 	print();
 }
