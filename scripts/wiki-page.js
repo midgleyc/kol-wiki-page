@@ -117,6 +117,8 @@ function effect(id) {
 	{{{1|}}}}}</includeonly><noinclude>{{{{FULLPAGENAME}}|format=effect/meta}}</noinclude>`
 	printHtml(text.replace(/</g, '&lt;'));
 	print();
+
+	var obtain = Item.all().filter(x => effectModifier(x, Modifier.get("Effect")) == eff);
 	
 	var link = `https://kol.coldfront.net/thekolwiki/index.php?title=${urlEncode(eff.name)}&action=edit`
 	printHtml(`<a href="${link}">${link}</a>`)
@@ -128,7 +130,7 @@ function effect(id) {
 	}}
 	
 	==Obtained From==
-	*[[AAAAAAAAAAA]] (X Adventures)`
+	${obtain.length > 0 ? obtain.map(x => `*[[${x.name}]] (${toInt(numericModifier(x, Modifier.get("Effect Duration")))} Adventures)`).join('<br>') : "*[[AAAAAAAAAAA]] (X Adventures)"}`
 	printHtml(text.replace(/</g, '&lt;'));
 	print();
 }
