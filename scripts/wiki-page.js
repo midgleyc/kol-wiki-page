@@ -86,7 +86,7 @@ function item(id) {
 	print();
 	var text = `<includeonly>{{{{{format}}}|
 	name=${it.name}|
-	plural=?|
+	plural=${it.plural}|
 	image=${it.image}|
 	{{{1|}}}}}</includeonly><noinclude>{{{{FULLPAGENAME}}|format=item/meta}}</noinclude>`
 	printHtml(text.replace(/</g, '&lt;'));
