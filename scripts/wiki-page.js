@@ -77,6 +77,24 @@ function skill(id) {
 	print();
 }
 
+function itemObtainedFrom(it) {
+	// which monsters drop this?
+	const monsters = Monster.all().filter(m => itemDropsArray(m).some(x => x.drop == it))
+	if (monsters.length > 0) {
+		let ret = "";
+		// and where do we find them?
+		for (let monster of monsters) {
+			const locations = Location.all().filter(x => Object.keys(getLocationMonsters(x)).some(x => x == monster.name))
+			for (let location of locations) {
+				ret += `;[[${location}]]\n:[[${monster}]]\n`
+			}
+		}
+		if (ret.endsWith('\n')) ret = ret.slice(0, -1)
+		return ret;
+	}
+	return ";[[AAAAAAAAAAA]]\n:[[AAAAAAAAAA]]"
+}
+
 function item(id) {
 	var it = Item.get(id);
 	var page = visitUrl("desc_item.php?whichitem=" + it.descid);
@@ -123,6 +141,12 @@ function item(id) {
 	if (it.skill != Skill.get("none")) {
 		props.set('skill', it.skill.name)
 	}
+	if (getPower(it) != 0) {
+		props.set('power', getPower(it))
+	}
+	if (type.startsWith("weapon")) {
+		props.set('powertype', 'Damage')
+	}
 	if (type == 'spleen item') {
 		props.set('quality', it.quality || '!')
 		props.set('toxicity', it.spleen)
@@ -150,8 +174,7 @@ function item(id) {
 	var text = makeTemplate('item', props) + `
 
 	==Obtained From==
-	;Skills
-	:[[Aug. 3rd: Watermelon Day!]]${it.usable ? `
+	${itemObtainedFrom(it)}${it.usable ? `
 
 	==When Used==
 	{{useitem|text={{NeedsText}}|type=spleen|limiter=1}}` : ''}
