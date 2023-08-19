@@ -108,9 +108,13 @@ function item(id) {
 	props.set('itemid', id);
 	props.set('descid', it.descid);
 	props.set('desc', desc);
-	const type = itemType(it);
+	const typeMatch = page.match('--><br><br>Type: <b>([^<]+)</b>')
+	const type = typeMatch && typeMatch.length > 1 ? typeMatch[1] : ''
 	if (type != '') {
 		props.set('type', type);
+	}
+	if (it.skill != Skill.get("none")) {
+		props.set('skill', it.skill.name)
 	}
 	if (!it.tradeable) {
 		props.set('notrade', 1);
