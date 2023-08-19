@@ -99,18 +99,15 @@ function item(id) {
 	|itemid=${id}
 	|descid=${it.descid}
 	|desc=${desc}
-	|type=usable
-	|notrade=1
-	|autosell=0
-	|quest=1
+	|type=${itemType(it)}${it.tradeable ? "" : `
+	|notrade=1`}${!it.discardable ? "" : `
+	|autosell=${autosellPrice(it)}`}${it.quest ? `
+	|quest=1` : ""}
 	${effect != "" ? `|enchantment=${replaceElements(effect)}` : ""}}}
 
 	==Obtained From==
-	;Stores
-	:[[Replica Mr. Store]] (1 [[replica Mr. Accessory]])
-
-	==Notes==
-	*{{IsTheSameAs|otheritem=${it.name.slice(8)}}}
+	;Skills
+	:[[Aug. 3rd: Watermelon Day!]]
 
 	==Collection==
 	<collection>${id}</collection>`
