@@ -15,6 +15,13 @@ function replaceElements(input) {
 	.replace("<font color=blueviolet>Sleaze Spells</font>", "{{element|Sleaze|Spells}}")
 }
 
+function replaceImage(image) {
+	if (image === 'nopic.gif') {
+		return 'nopic2.gif'
+	}
+	return image;
+}
+
 function makeTemplate(name, map) {
 	let t = '{{' + name;
 	for (let [k, v] of map) {
@@ -45,7 +52,7 @@ function skill(id) {
 	print();
 	var text = `<includeonly>{{{{{format}}}|
 	name=${sk.name}|
-	image=${sk.image}|
+	image=${replaceImage(sk.image)}|
 	{{{1|}}}}}</includeonly><noinclude>{{{{FULLPAGENAME}}|format=skill/meta}}</noinclude>`
 	printHtml(text.replace(/</g, '&lt;'));
 	print();
@@ -96,7 +103,7 @@ function item(id) {
 	var text = `<includeonly>{{{{{format}}}|
 	name=${it.name}|
 	plural=${it.plural}|
-	image=${it.image}|
+	image=${replaceImage(it.image)}|
 	{{{1|}}}}}</includeonly><noinclude>{{{{FULLPAGENAME}}|format=item/meta}}</noinclude>`
 	printHtml(text.replace(/</g, '&lt;'));
 	print();
@@ -158,7 +165,7 @@ function item(id) {
 function effect(id) {
 	var eff = Effect.get(id);
 	var page = visitUrl("desc_effect.php?whicheffect=" + eff.descid);
-	var desc = page.match("<blockquote>([^<]+)</blockquote>");
+	var desc = page.match("<blockquote>([^]+)</blockquote>");
 	if (desc && desc.length > 1) {
 		desc = desc[1]
 	} else {
@@ -180,7 +187,7 @@ function effect(id) {
 	print();
 	var text = `<includeonly>{{{{{format}}}|
 	name=${eff.name}|
-	image=${eff.image}|
+	image=${replaceImage(eff.image)}|
 	effect=${replaceElements(effect)}|
 	{{{1|}}}}}</includeonly><noinclude>{{{{FULLPAGENAME}}|format=effect/meta}}</noinclude>`
 	printHtml(text.replace(/</g, '&lt;'));
