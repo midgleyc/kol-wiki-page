@@ -15,6 +15,15 @@ function replaceElements(input) {
 	.replace("<font color=blueviolet>Sleaze Spells</font>", "{{element|Sleaze|Spells}}")
 }
 
+function makeTemplate(name, map) {
+	let t = '{{' + name;
+	for (let [k, v] of map) {
+		t += '\n|' + k + '=' + v;
+	}
+	t += '\n}}'
+	return t;
+}
+
 function skill(id) {
 	var sk = Skill.get(id);
 	var page = visitUrl("desc_skill.php?whichskill=" + sk.id);
@@ -95,15 +104,27 @@ function item(id) {
 	var link = `https://kol.coldfront.net/thekolwiki/index.php?title=${urlEncode(it.name)}&action=edit`
 	printHtml(`<a href="${link}">${link}</a>`)
 	print();
-	var text = `{{item
-	|itemid=${id}
-	|descid=${it.descid}
-	|desc=${desc}
-	|type=${itemType(it)}${it.tradeable ? "" : `
-	|notrade=1`}${!it.discardable ? "" : `
-	|autosell=${autosellPrice(it)}`}${it.quest ? `
-	|quest=1` : ""}
-	${effect != "" ? `|enchantment=${replaceElements(effect)}` : ""}}}
+	var props = new Map();
+	props.set('itemid', id);
+	props.set('descid', it.descid);
+	props.set('desc', desc);
+	const type = itemType(it);
+	if (type != '') {
+		props.set('type', type);
+	}
+	if (!it.tradeable) {
+		props.set('notrade', 1);
+	}
+	if (it.discardable) {
+		props.set('autosell', autosellPrice(it));
+	}
+	if (it.quest) {
+		props.set('quest', 1)
+	}
+	if (effect != '') {
+		props.set('enchantment', replaceElements(effect));
+	}
+	var text = makeTemplate('item', props) + `
 
 	==Obtained From==
 	;Skills
