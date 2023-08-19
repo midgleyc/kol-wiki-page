@@ -116,6 +116,13 @@ function item(id) {
 	if (it.skill != Skill.get("none")) {
 		props.set('skill', it.skill.name)
 	}
+	if (type == 'spleen item') {
+		props.set('quality', it.quality || '!')
+		props.set('toxicity', it.spleen)
+		if (it.levelreq != 1) {
+			props.set('level', it.levelreq)
+		}
+	}
 	if (!it.tradeable) {
 		props.set('notrade', 1);
 	}
@@ -128,11 +135,19 @@ function item(id) {
 	if (effect != '') {
 		props.set('enchantment', replaceElements(effect));
 	}
+	const potEffect = stringModifier(it, Modifier.get("Effect"));
+	if (potEffect != "") {
+		props.set('effect', potEffect)
+		props.set('duration', numericModifier(it, Modifier.get("Effect Duration")))
+	}
 	var text = makeTemplate('item', props) + `
 
 	==Obtained From==
 	;Skills
-	:[[Aug. 3rd: Watermelon Day!]]
+	:[[Aug. 3rd: Watermelon Day!]]${it.usable ? `
+
+	==When Used==
+	{{useitem|text={{NeedsText}}|type=spleen|limiter=1}}` : ''}
 
 	==Collection==
 	<collection>${id}</collection>`
