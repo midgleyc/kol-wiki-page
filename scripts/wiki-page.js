@@ -159,6 +159,8 @@ function item(id) {
 	}
 	if (it.discardable) {
 		props.set('autosell', autosellPrice(it));
+	} else {
+		props.set('autosell', 0)
 	}
 	if (it.quest) {
 		props.set('quest', 1)
