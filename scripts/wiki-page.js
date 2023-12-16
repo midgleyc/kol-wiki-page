@@ -133,7 +133,7 @@ function item(id) {
 	props.set('itemid', id);
 	props.set('descid', it.descid);
 	props.set('desc', desc);
-	const typeMatch = page.match('--><br><br>Type: <b>([^<]+)</b>')
+	const typeMatch = page.match('<br>Type: <b>([^<]+)</b><br>')
 	const type = typeMatch && typeMatch.length > 1 ? typeMatch[1] : ''
 	if (type != '') {
 		props.set('type', type);
@@ -144,7 +144,7 @@ function item(id) {
 	if (getPower(it) != 0) {
 		props.set('power', getPower(it))
 	}
-	if (type.startsWith("weapon")) {
+	if (type.startsWith("weapon") || type.startsWith("ranged weapon")) {
 		props.set('powertype', 'Damage')
 	}
 	if (type == 'spleen item') {
@@ -164,6 +164,9 @@ function item(id) {
 	}
 	if (it.quest) {
 		props.set('quest', 1)
+	}
+	if (it.pasteable) {
+		props.set('paste', 1)
 	}
 	if (effect != '') {
 		props.set('enchantment', replaceElements(effect));
