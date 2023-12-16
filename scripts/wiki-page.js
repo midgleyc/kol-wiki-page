@@ -147,6 +147,11 @@ function item(id) {
 	if (type.startsWith("weapon") || type.startsWith("ranged weapon")) {
 		props.set('powertype', 'Damage')
 	}
+	if (type == 'off-hand item (shield)') {
+		const dr = numericModifier(it, Modifier.get("Damage Reduction"));
+		props.set('power', dr);
+		props.set('powertype', 'Damage Reduction');
+	}
 	if (type == 'spleen item') {
 		props.set('quality', it.quality || '!')
 		props.set('toxicity', it.spleen)
