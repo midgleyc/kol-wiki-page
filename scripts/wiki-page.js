@@ -173,6 +173,9 @@ function item(id) {
 	if (it.pasteable) {
 		props.set('paste', 1)
 	}
+	if (booleanModifier(it, Modifier.get('Single Equip'))) {
+		props.set('limit', 1)
+	}
 	if (effect != '') {
 		props.set('enchantment', replaceElements(effect));
 	}
