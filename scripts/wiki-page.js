@@ -22,12 +22,13 @@ function replaceImage(image) {
 	return image;
 }
 
-function makeTemplate(name, map) {
+function makeTemplate(name, map, includeNewlines) {
+	const n = includeNewlines ? '\n' : '';
 	let t = '{{' + name;
 	for (let [k, v] of map) {
-		t += '\n|' + k + '=' + v;
+		t += `${n}|` + k + '=' + v;
 	}
-	t += '\n}}'
+	t += n + '}}'
 	return t;
 }
 
@@ -130,10 +131,11 @@ function item(id) {
 	printHtml(`<a href="${link}">${link}</a>`)
 	print();
 	var props = new Map();
+	var usableProps = new Map();
 	props.set('itemid', id);
 	props.set('descid', it.descid);
 	props.set('desc', desc);
-	const typeMatch = page.match('<br>Type: <b>([^<]+)</b><br>')
+	const typeMatch = page.match('<br>Type: <b>([^<]+)</b>(</b>)?<br>')
 	const type = typeMatch && typeMatch.length > 1 ? typeMatch[1] : ''
 	if (type != '') {
 		props.set('type', type);
@@ -158,6 +160,8 @@ function item(id) {
 		if (it.levelreq != 1) {
 			props.set('level', it.levelreq)
 		}
+		usableProps.set('type', 'spleen')
+		usableProps.set('limiter', it.spleen)
 	}
 	if (!it.tradeable) {
 		props.set('notrade', 1);
@@ -184,13 +188,16 @@ function item(id) {
 		props.set('effect', potEffect)
 		props.set('duration', numericModifier(it, Modifier.get("Effect Duration")))
 	}
-	var text = makeTemplate('item', props) + `
+	if (it.usable) {
+		usableProps.set('text', '{{NeedsText}}')
+	}
+	var text = makeTemplate('item', props, true) + `
 
 	==Obtained From==
 	${itemObtainedFrom(it)}${it.usable ? `
 
 	==When Used==
-	{{useitem|text={{NeedsText}}|type=spleen|limiter=1}}` : ''}
+	${makeTemplate('useitem', usableProps, false)}` : ''}
 
 	==Collection==
 	<collection>${id}</collection>`
