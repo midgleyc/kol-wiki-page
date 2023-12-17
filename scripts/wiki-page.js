@@ -186,7 +186,9 @@ function item(id) {
 	const potEffect = stringModifier(it, Modifier.get("Effect"));
 	if (potEffect != "") {
 		props.set('effect', potEffect)
-		props.set('duration', numericModifier(it, Modifier.get("Effect Duration")))
+		const duration = numericModifier(it, Modifier.get("Effect Duration"));
+		props.set('duration', duration)
+		usableProps.set('effect', makeTemplate('acquireEffect', new Map([['effect', potEffect], ['duration', duration]]), false))
 	}
 	if (it.usable) {
 		usableProps.set('text', '{{NeedsText}}')
