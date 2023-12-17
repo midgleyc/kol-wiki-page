@@ -132,11 +132,14 @@ function item(id) {
 	print();
 	var props = new Map();
 	var usableProps = new Map();
+	let usable = it.usable;
 	props.set('itemid', id);
 	props.set('descid', it.descid);
 	props.set('desc', desc);
+	// this doesn't match food or booze, for which we use mafia's type
 	const typeMatch = page.match('<br>Type: <b>([^<]+)</b>(</b>)?<br>')
 	const type = typeMatch && typeMatch.length > 1 ? typeMatch[1] : ''
+	const mafiaType = itemType(it);
 	if (type != '') {
 		props.set('type', type);
 	}
@@ -153,6 +156,17 @@ function item(id) {
 		const dr = numericModifier(it, Modifier.get("Damage Reduction"));
 		props.set('power', dr);
 		props.set('powertype', 'Damage Reduction');
+	}
+	if (mafiaType == 'food') {
+		usable = true;
+		props.set('type', 'food')
+		props.set('quality', it.quality || '!')
+		props.set('size', it.fullness)
+		if (it.levelreq != 1) {
+			props.set('level', it.levelreq)
+		}
+		usableProps.set('type', 'food')
+		usableProps.set('limiter', it.fullness)
 	}
 	if (type == 'spleen item') {
 		props.set('quality', it.quality || '!')
@@ -190,13 +204,13 @@ function item(id) {
 		props.set('duration', duration)
 		usableProps.set('effect', makeTemplate('acquireEffect', new Map([['effect', potEffect], ['duration', duration]]), false))
 	}
-	if (it.usable) {
+	if (usable) {
 		usableProps.set('text', '{{NeedsText}}')
 	}
 	var text = makeTemplate('item', props, true) + `
 
 	==Obtained From==
-	${itemObtainedFrom(it)}${it.usable ? `
+	${itemObtainedFrom(it)}${usable ? `
 
 	==When Used==
 	${makeTemplate('useitem', usableProps, false)}` : ''}
