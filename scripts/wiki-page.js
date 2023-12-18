@@ -214,7 +214,7 @@ function item(id) {
 		props.set('limit', 1)
 	}
 	if (effect != '') {
-		props.set('enchantment', replaceElements(effect));
+		props.set('enchantment', replaceElements(effect).replace(/<br>$/, ''));
 	}
 	const potEffect = stringModifier(it, Modifier.get("Effect"));
 	if (potEffect != "") {
