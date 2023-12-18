@@ -200,6 +200,12 @@ function item(id) {
 	if (it.pasteable) {
 		props.set('paste', 1)
 	}
+	if (it.cookable) {
+		props.set('cook', 1)
+	}
+	if (it.mixable) {
+		props.set('cocktail', 1)
+	}
 	if (booleanModifier(it, Modifier.get('Single Equip'))) {
 		props.set('limit', 1)
 	}
