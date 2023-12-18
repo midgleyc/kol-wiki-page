@@ -138,8 +138,8 @@ function item(id) {
 	props.set('desc', desc);
 	// this doesn't match food or booze, for which we use mafia's type
 	const typeMatch = page.match('<br>Type: <b>([^<]+)</b>(</b>)?<br>')
-	const type = typeMatch && typeMatch.length > 1 ? typeMatch[1] : ''
 	const mafiaType = itemType(it);
+	const type = typeMatch && typeMatch.length > 1 ? typeMatch[1] : mafiaType
 	if (type != '') {
 		props.set('type', type);
 	}
@@ -157,9 +157,8 @@ function item(id) {
 		props.set('power', dr);
 		props.set('powertype', 'Damage Reduction');
 	}
-	if (mafiaType == 'food') {
+	if (type == 'food') {
 		usable = true;
-		props.set('type', 'food')
 		props.set('quality', it.quality || '!')
 		props.set('size', it.fullness)
 		if (it.levelreq != 1) {
@@ -167,6 +166,16 @@ function item(id) {
 		}
 		usableProps.set('type', 'food')
 		usableProps.set('limiter', it.fullness)
+	}
+	if (type == 'booze') {
+		usable = true;
+		props.set('quality', it.quality || '!')
+		props.set('size', it.inebriety)
+		if (it.levelreq != 1) {
+			props.set('level', it.levelreq)
+		}
+		usableProps.set('type', 'booze')
+		usableProps.set('limiter', it.inebriety)
 	}
 	if (type == 'spleen item') {
 		props.set('quality', it.quality || '!')
