@@ -186,6 +186,10 @@ function item(id) {
 		usableProps.set('type', 'spleen')
 		usableProps.set('limiter', it.spleen)
 	}
+	if (type.startsWith('combat item')) {
+		usable = true
+		usableProps.set('type', 'combat')
+	}
 	if (!it.tradeable) {
 		props.set('notrade', 1);
 	}
