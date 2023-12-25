@@ -221,7 +221,8 @@ function item(id) {
 		props.set('effect', potEffect)
 		const duration = numericModifier(it, Modifier.get("Effect Duration"));
 		props.set('duration', duration)
-		usableProps.set('effect', makeTemplate('acquireEffect', new Map([['effect', potEffect], ['duration', duration]]), false))
+		var eff = (type == 'food' || type == 'booze' || type == 'spleen item') ? 'posteffect' : 'effect'
+		usableProps.set(eff, makeTemplate('acquireEffect', new Map([['effect', potEffect], ['duration', duration]]), false))
 	}
 	if (usable) {
 		usableProps.set('text', '{{NeedsText}}')
