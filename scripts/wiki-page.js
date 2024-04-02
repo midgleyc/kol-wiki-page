@@ -137,7 +137,7 @@ function item(id) {
 	props.set('descid', it.descid);
 	props.set('desc', desc);
 	// this doesn't match food or booze, for which we use mafia's type
-	const typeMatch = page.match('<br>Type: <b>([^<]+)</b>(</b>)?<br>')
+	const typeMatch = page.match('<br>Type: <b>([^<]+)</b>(</b>)?<[Bb]r>')
 	const mafiaType = itemType(it);
 	const type = typeMatch && typeMatch.length > 1 ? typeMatch[1] : mafiaType
 	if (type != '') {
