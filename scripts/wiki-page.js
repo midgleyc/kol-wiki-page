@@ -198,7 +198,9 @@ function item(id) {
 	} else {
 		props.set('autosell', 0)
 	}
-	if (it.quest) {
+	if (booleanModifier(it, Modifier.get('Lasts Until Rollover'))) {
+		props.set('eod', 1)
+	} else if (it.quest) {
 		props.set('quest', 1)
 	}
 	if (it.pasteable) {
