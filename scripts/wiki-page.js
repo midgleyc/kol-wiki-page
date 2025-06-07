@@ -47,6 +47,20 @@ function skill(id) {
 	} else {
 		effect = ""
 	}
+	var type = ""
+	if (sk.passive) {
+		type = "Passive"
+	} else if (sk.buff) {
+		type = "Buff"
+	} else if (sk.combat) {
+		if (sk.spell) {
+			type = "Combat Spell"
+		} else {
+			type = "Combat"
+		}
+	} else {
+		type = "Noncombat";
+	}
 	
 	var data_link = `https://kol.coldfront.net/thekolwiki/index.php?title=Data:${urlEncode(sk.name)}&action=edit`;
 	printHtml(`<a href="${data_link}">${data_link}</a>`)
@@ -65,11 +79,11 @@ function skill(id) {
 	|skillid=${id}
 	|description=${desc}${effect != '' ? `
 	|effect=${effect}` : ''}
-	|type=Noncombat
+	|type=${type}
 	|mpcost=0
 	|permable=0
 	|once=day
-	|source=[[august scepter]]
+	|source=[[AAAAAAAAAA]]
 	|permable=0
 	|explain=
 	|usemsg=
