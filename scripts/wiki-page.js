@@ -84,7 +84,6 @@ function skill(id) {
 	|permable=0
 	|once=day
 	|source=[[AAAAAAAAAA]]
-	|permable=0
 	|explain=
 	|usemsg=
 	}}`
