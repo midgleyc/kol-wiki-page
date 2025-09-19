@@ -250,8 +250,7 @@ function item(id) {
 	==When Used==
 	${makeTemplate('useitem', usableProps, false)}` : ''}
 
-	==Collection==
-	<collection>${id}</collection>`
+	{{Collection|${id}}}`
 	printHtml(text.replace(/</g, '&lt;'));
 	print();
 }
