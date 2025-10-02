@@ -82,10 +82,11 @@ function skill(id) {
 		props.set('effect', effect);
 	}
 	props.set('type', type);
-	props.set('mpcost', 0);
-	props.set('permable', 0);
-	props.set('once', 'day');
-	props.set('source', '[[AAAAAAAAAA]]');
+	props.set('mpcost', mpCost(sk));
+	props.set('permable', Number(sk.permable));
+	props.set('once', 'day'); // TODO: guess we have to parse this from description?
+	var sources = Item.all().filter(x => skillsModifier(x, "Conditional Skill (Equipped)").includes(sk) || skillsModifier(x, "Conditional Skill (Inventory)").includes(sk));
+	props.set('source', sources.length > 0 ? sources.map(x => `[[${x}]]`).join(", ") : '[[AAAAAAAAAA]]');
 	props.set('explain', '');
 	props.set('usemsg', '');
 	var text = makeTemplate('skill', props, true);
