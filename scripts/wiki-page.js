@@ -75,18 +75,20 @@ function skill(id) {
 	var link = `https://wiki.kingdomofloathing.com/index.php?title=${urlEncode(sk.name)}&action=edit`
 	printHtml(`<a href="${link}">${link}</a>`)
 	print();
-	var text = `{{skill
-	|skillid=${id}
-	|description=${desc}${effect != '' ? `
-	|effect=${effect}` : ''}
-	|type=${type}
-	|mpcost=0
-	|permable=0
-	|once=day
-	|source=[[AAAAAAAAAA]]
-	|explain=
-	|usemsg=
-	}}`
+	var props = new Map();
+	props.set('skillid', id);
+	props.set('description', desc);
+	if (effect != '') {
+		props.set('effect', effect);
+	}
+	props.set('type', type);
+	props.set('mpcost', 0);
+	props.set('permable', 0);
+	props.set('once', 'day');
+	props.set('source', '[[AAAAAAAAAA]]');
+	props.set('explain', '');
+	props.set('usemsg', '');
+	var text = makeTemplate('skill', props, true);
 	printHtml(text.replace(/</g, '&lt;'));
 	print();
 }
