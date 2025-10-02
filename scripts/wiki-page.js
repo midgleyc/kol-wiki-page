@@ -286,7 +286,7 @@ function effect(id) {
 	printHtml(text.replace(/</g, '&lt;'));
 	print();
 
-	var obtain = Item.all().filter(x => effectModifier(x, Modifier.get("Effect")) == eff);
+	var obtain = eff.all.map(x => convertEffectSourceToWikiString(x))
 	
 	var link = `https://wiki.kingdomofloathing.com/index.php?title=${urlEncode(eff.name)}&action=edit`
 	printHtml(`<a href="${link}">${link}</a>`)
@@ -298,9 +298,23 @@ function effect(id) {
 	}}
 	
 	==Obtained From==
-	${obtain.length > 0 ? obtain.map(x => `*[[${x.name}]] (${toInt(numericModifier(x, Modifier.get("Effect Duration")))} Adventures)`).join('<br>') : "*[[AAAAAAAAAAA]] (X Adventures)"}`
+	${obtain.length > 0 ? obtain.join('<br>') : "*[[AAAAAAAAAAA]] (X Adventures)"}`
 	printHtml(text.replace(/</g, '&lt;'));
 	print();
+}
+
+function convertEffectSourceToWikiString(source) {
+	if (source.startsWith("use 1 ")) {
+		var item = Item.get(source.slice(6));
+		var turns = toInt(numericModifier(item, Modifier.get("Effect Duration")));
+		return `*[[${item.name}]] (${turns} Adventures)`;
+	}
+	if (source.startsWith("cast 1 ")) {
+		var skill = Skill.get(source.slice(7));
+		var turns = turnsPerCast(skill);
+		return `*[[${skill.name}]] (${turns} Adventures)`;
+	}
+	return `*[[AAAAAAAAAAA]] (X Adventures) [${source}]`;
 }
 
 function main(args) {
