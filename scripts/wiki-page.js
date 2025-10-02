@@ -304,10 +304,12 @@ function effect(id) {
 }
 
 function convertEffectSourceToWikiString(source) {
-	if (source.startsWith("use 1 ")) {
-		var item = Item.get(source.slice(6));
-		var turns = toInt(numericModifier(item, Modifier.get("Effect Duration")));
-		return `*[[${item.name}]] (${turns} Adventures)`;
+	for (let start of ["use 1 ", "eat 1 ", "drink 1 ", "chew 1 "]) {
+		if (source.startsWith(start)) {
+			var item = Item.get(source.slice(start.length));
+			var turns = toInt(numericModifier(item, Modifier.get("Effect Duration")));
+			return `*[[${item.name}]] (${turns} Adventures)`;
+		}
 	}
 	if (source.startsWith("cast 1 ")) {
 		var skill = Skill.get(source.slice(7));
