@@ -62,7 +62,7 @@ function skill(id) {
 		type = "Noncombat";
 	}
 	
-	var data_link = `https://kol.coldfront.net/thekolwiki/index.php?title=Data:${urlEncode(sk.name)}&action=edit`;
+	var data_link = `https://wiki.kingdomofloathing.com/index.php?title=Data:${urlEncode(sk.name)}&action=edit`;
 	printHtml(`<a href="${data_link}">${data_link}</a>`)
 	print();
 	var text = `<includeonly>{{{{{format}}}|
@@ -72,7 +72,7 @@ function skill(id) {
 	printHtml(text.replace(/</g, '&lt;'));
 	print();
 	
-	var link = `https://kol.coldfront.net/thekolwiki/index.php?title=${urlEncode(sk.name)}&action=edit`
+	var link = `https://wiki.kingdomofloathing.com/index.php?title=${urlEncode(sk.name)}&action=edit`
 	printHtml(`<a href="${link}">${link}</a>`)
 	print();
 	var text = `{{skill
@@ -129,7 +129,7 @@ function item(id) {
 		effect = ""
 	}
 	
-	var data_link = `https://kol.coldfront.net/thekolwiki/index.php?title=Data:${urlEncode(it.name)}&action=edit`;
+	var data_link = `https://wiki.kingdomofloathing.com/index.php?title=Data:${urlEncode(it.name)}&action=edit`;
 	printHtml(`<a href="${data_link}">${data_link}</a>`)
 	print();
 	var text = `<includeonly>{{{{{format}}}|
@@ -140,7 +140,7 @@ function item(id) {
 	printHtml(text.replace(/</g, '&lt;'));
 	print();
 	
-	var link = `https://kol.coldfront.net/thekolwiki/index.php?title=${urlEncode(it.name)}&action=edit`
+	var link = `https://wiki.kingdomofloathing.com/index.php?title=${urlEncode(it.name)}&action=edit`
 	printHtml(`<a href="${link}">${link}</a>`)
 	print();
 	var props = new Map();
@@ -275,7 +275,7 @@ function effect(id) {
 		effect = ""
 	}
 	
-	var data_link = `https://kol.coldfront.net/thekolwiki/index.php?title=Data:${urlEncode(eff.name)}&action=edit`;
+	var data_link = `https://wiki.kingdomofloathing.com/index.php?title=Data:${urlEncode(eff.name)}&action=edit`;
 	printHtml(`<a href="${data_link}">${data_link}</a>`)
 	print();
 	var text = `<includeonly>{{{{{format}}}|
@@ -288,7 +288,7 @@ function effect(id) {
 
 	var obtain = Item.all().filter(x => effectModifier(x, Modifier.get("Effect")) == eff);
 	
-	var link = `https://kol.coldfront.net/thekolwiki/index.php?title=${urlEncode(eff.name)}&action=edit`
+	var link = `https://wiki.kingdomofloathing.com/index.php?title=${urlEncode(eff.name)}&action=edit`
 	printHtml(`<a href="${link}">${link}</a>`)
 	print();
 	var text = `{{effect
