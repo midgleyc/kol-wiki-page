@@ -82,7 +82,10 @@ function skill(id) {
 		props.set('effect', effect);
 	}
 	props.set('type', type);
-	props.set('mpcost', mpCost(sk));
+	var mpcost = mpCost(sk);
+	if (mpcost != 0) {
+		props.set('mpcost', mpcost);
+	}
 	props.set('permable', Number(sk.permable));
 	props.set('once', 'day'); // TODO: guess we have to parse this from description?
 	var sources = Item.all().filter(x => skillsModifier(x, "Conditional Skill (Equipped)").includes(sk) || skillsModifier(x, "Conditional Skill (Inventory)").includes(sk));
