@@ -1,3 +1,4 @@
+'use strict';
 const k = require('kolmafia')
 Object.assign(globalThis, k);
 
@@ -348,7 +349,7 @@ function convertEffectSourceToWikiString(source) {
 }
 
 function main(args) {
-	[type, id] = args.split(" ");
+	const [type, id] = args.split(" ");
 	if (type == "effect") {
 		effect(id);
 	} else if (type == "item") {
