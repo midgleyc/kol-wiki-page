@@ -247,6 +247,22 @@ function item(id) {
 	}
 	if (usable) {
 		usableProps.set('text', '{{NeedsText}}')
+		const advs = it.adventures;
+		if (advs !== "0") {
+			usableProps.set("adv", advs);
+		}
+		const mus = it.muscle;
+		if (mus !== "0") {
+			usableProps.set("mus", "gain " + mus);
+		}
+		const mys = it.mysticality;
+		if (mys !== "0") {
+			usableProps.set("mys", "gain " + mys);
+		}
+		const mox = it.moxie;
+		if (mox !== "0") {
+			usableProps.set("mox", "gain " + mox);
+		}
 	}
 	var text = makeTemplate('item', props, true) + `
 
@@ -254,7 +270,7 @@ function item(id) {
 	${itemObtainedFrom(it)}${usable ? `
 
 	==When Used==
-	${makeTemplate('useitem', usableProps, false)}` : ''}
+	${makeTemplate('useitem', usableProps, true)}` : ''}
 
 	{{Collection|${id}}}`
 	printHtml(text.replace(/</g, '&lt;'));
