@@ -183,6 +183,9 @@ function item(id) {
 		if (it.levelreq != 1) {
 			props.set('level', it.levelreq)
 		}
+		if (it.notes != null && it.notes.includes("BEVERAGE")) {
+			props.set('type', 'beverage');
+		}
 		usableProps.set('type', 'food')
 		usableProps.set('limiter', it.fullness)
 	}
