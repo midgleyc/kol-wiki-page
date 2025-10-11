@@ -158,7 +158,10 @@ function item(id) {
 	// this doesn't match food or booze, for which we use mafia's type
 	const typeMatch = page.match('<br>Type: <b>([^<]+)</b>(</b>)?<[Bb]r>')
 	const mafiaType = itemType(it);
-	const type = typeMatch && typeMatch.length > 1 ? typeMatch[1] : mafiaType
+	let type = typeMatch && typeMatch.length > 1 ? typeMatch[1] : mafiaType
+	if (type.endsWith(' (decent)')) {
+		type = type.slice(0, -9);
+	}
 	if (type != '') {
 		props.set('type', type);
 	}
