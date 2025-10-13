@@ -245,11 +245,12 @@ function item(id) {
 		props.set('enchantment', replaceElements(effect).replace(/<br>$/, ''));
 	}
 	const potEffect = stringModifier(it, Modifier.get("Effect"));
+	const isConsumable = ['food', 'booze', 'spleen item'].includes(type);
 	if (potEffect != "") {
 		props.set('effect', potEffect)
 		const duration = numericModifier(it, Modifier.get("Effect Duration"));
 		props.set('duration', duration)
-		var eff = (type == 'food' || type == 'booze' || type == 'spleen item') ? 'posteffect' : 'effect'
+		var eff = isConsumable ? 'posteffect' : 'effect'
 		usableProps.set(eff, makeTemplate('acquireEffect', new Map([['effect', potEffect], ['duration', duration]]), false))
 	}
 	if (usable) {
@@ -276,7 +277,7 @@ function item(id) {
 	==Obtained From==
 	${itemObtainedFrom(it)}${usable ? `
 
-	==When Used==
+	==When ${isConsumable ? 'Consumed' : 'Used'}==
 	${makeTemplate('useitem', usableProps, true)}` : ''}
 
 	{{Collection|${id}}}`
