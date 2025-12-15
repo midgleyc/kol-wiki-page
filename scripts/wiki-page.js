@@ -256,19 +256,19 @@ function item(id) {
 	if (usable) {
 		usableProps.set('text', '{{NeedsText}}')
 		const advs = it.adventures;
-		if (advs !== "0") {
+		if (advs && advs !== "0") {
 			usableProps.set("adv", advs);
 		}
 		const mus = it.muscle;
-		if (mus !== "0") {
+		if (mus && mus !== "0") {
 			usableProps.set("mus", "gain " + mus);
 		}
 		const mys = it.mysticality;
-		if (mys !== "0") {
+		if (mys && mys !== "0") {
 			usableProps.set("mys", "gain " + mys);
 		}
 		const mox = it.moxie;
-		if (mox !== "0") {
+		if (mox && mox !== "0") {
 			usableProps.set("mox", "gain " + mox);
 		}
 	}
