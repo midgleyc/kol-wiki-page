@@ -328,7 +328,7 @@ function effect(id) {
 	}}
 	
 	==Obtained From==
-	${obtain.length > 0 ? obtain.join('<br>') : "*[[AAAAAAAAAAA]] (X Adventures)"}`
+	${obtain.length > 0 ? obtain.join('\n') : "*[[AAAAAAAAAAA]] (X Adventures)"}`
 	printHtml(text.replace(/</g, '&lt;'));
 	print();
 }
