@@ -183,7 +183,7 @@ function item(id) {
 	var statReqMatch = page.match("<br>(Muscle|Mysticality|Moxie) Required: <b>(\\d+)</b>");
 	if (statReqMatch) {
 		props.set('stat', statReqMatch[1]);
-		props.set('statReq', statReqMatch[2]);
+		props.set('statreq', statReqMatch[2]);
 	}
 	if (type == 'food') {
 		usable = true;
