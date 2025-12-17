@@ -180,6 +180,11 @@ function item(id) {
 		props.set('power', dr);
 		props.set('powertype', 'Damage Reduction');
 	}
+	var statReqMatch = page.match("<br>(Muscle|Mysticality|Moxie) Required: <b>(\\d+)</b>");
+	if (statReqMatch) {
+		props.set('stat', statReqMatch[1]);
+		props.set('statReq', statReqMatch[2]);
+	}
 	if (type == 'food') {
 		usable = true;
 		props.set('quality', it.quality || '!')
