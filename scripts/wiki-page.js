@@ -221,6 +221,12 @@ function item(id) {
 		usable = true
 		usableProps.set('type', 'combat')
 	}
+	const outfits = Object.values(allNormalOutfits()).filter(x => outfitPieces(x).includes(it));
+	if (outfits.length > 0) {
+		const outfit = outfits[0];
+		props.set('outfit', outfit);
+		props.set('pieces', outfitPieces(outfit).length);
+	}
 	if (!it.tradeable) {
 		props.set('notrade', 1);
 	}
