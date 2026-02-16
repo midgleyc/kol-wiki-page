@@ -82,7 +82,7 @@ function skill(id) {
 	props.set('skillid', id);
 	props.set('description', desc);
 	if (effect != '') {
-		props.set('effect', effect);
+		props.set('effect', replaceElements(effect));
 	}
 	props.set('type', type);
 	var mpcost = mpCost(sk);
