@@ -90,7 +90,7 @@ function skill(id) {
 		props.set('mpcost', mpcost);
 	}
 	props.set('permable', Number(sk.permable));
-	props.set('once', 'day'); // TODO: guess we have to parse this from description?
+	// props.set('once', 'day'); // TODO: guess we have to parse this from description?
 	var sources = Item.all().filter(x => skillsModifier(x, "Conditional Skill (Equipped)").includes(sk) || skillsModifier(x, "Conditional Skill (Inventory)").includes(sk));
 	props.set('source', sources.length > 0 ? sources.map(x => `[[${x}]]`).join(", ") : '[[AAAAAAAAAA]]');
 	props.set('explain', '');
