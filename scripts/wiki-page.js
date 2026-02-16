@@ -62,8 +62,10 @@ function skill(id) {
 	} else {
 		type = "Noncombat";
 	}
+
+	var wikiTitle = encodedWikiName(sk);
 	
-	var data_link = `https://wiki.kingdomofloathing.com/index.php?title=Data:${urlEncode(sk.name)}&action=edit`;
+	var data_link = `https://wiki.kingdomofloathing.com/index.php?title=Data:${wikiTitle}&action=edit`;
 	printHtml(`<a href="${data_link}">${data_link}</a>`)
 	print();
 	var text = `<includeonly>{{{{{format}}}|
@@ -73,7 +75,7 @@ function skill(id) {
 	printHtml(text.replace(/</g, '&lt;'));
 	print();
 	
-	var link = `https://wiki.kingdomofloathing.com/index.php?title=${urlEncode(sk.name)}&action=edit`
+	var link = `https://wiki.kingdomofloathing.com/index.php?title=${wikiTitle}&action=edit`
 	printHtml(`<a href="${link}">${link}</a>`)
 	print();
 	var props = new Map();
@@ -135,8 +137,10 @@ function item(id) {
 		print(page)
 		effect = ""
 	}
+
+	var wikiTitle = encodedWikiName(it);
 	
-	var data_link = `https://wiki.kingdomofloathing.com/index.php?title=Data:${urlEncode(it.name)}&action=edit`;
+	var data_link = `https://wiki.kingdomofloathing.com/index.php?title=Data:${wikiTitle}&action=edit`;
 	printHtml(`<a href="${data_link}">${data_link}</a>`)
 	print();
 	var text = `<includeonly>{{{{{format}}}|
@@ -147,7 +151,7 @@ function item(id) {
 	printHtml(text.replace(/</g, '&lt;'));
 	print();
 	
-	var link = `https://wiki.kingdomofloathing.com/index.php?title=${urlEncode(it.name)}&action=edit`
+	var link = `https://wiki.kingdomofloathing.com/index.php?title=${wikiTitle}&action=edit`
 	printHtml(`<a href="${link}">${link}</a>`)
 	print();
 	var props = new Map();
@@ -315,8 +319,10 @@ function effect(id) {
 		print(page)
 		effect = ""
 	}
+
+	var wikiTitle = encodedWikiName(eff);
 	
-	var data_link = `https://wiki.kingdomofloathing.com/index.php?title=Data:${urlEncode(eff.name)}&action=edit`;
+	var data_link = `https://wiki.kingdomofloathing.com/index.php?title=Data:${wikiTitle}&action=edit`;
 	printHtml(`<a href="${data_link}">${data_link}</a>`)
 	print();
 	var text = `<includeonly>{{{{{format}}}|
@@ -329,7 +335,7 @@ function effect(id) {
 
 	var obtain = eff.all.map(x => convertEffectSourceToWikiString(x))
 	
-	var link = `https://wiki.kingdomofloathing.com/index.php?title=${urlEncode(eff.name)}&action=edit`
+	var link = `https://wiki.kingdomofloathing.com/index.php?title=${wikiTitle}&action=edit`
 	printHtml(`<a href="${link}">${link}</a>`)
 	print();
 	var text = `{{effect
@@ -349,15 +355,28 @@ function convertEffectSourceToWikiString(source) {
 		if (source.startsWith(start)) {
 			var item = Item.get(source.slice(start.length));
 			var turns = toInt(numericModifier(item, Modifier.get("Effect Duration")));
-			return `*[[${item.name}]] (${turns} Adventures)`;
+			var wikiName = urlDecode(encodedWikiName(item)).replaceAll("_", " ");
+			return `*${wikiLink(wikiName, item.name)} (${turns} Adventures)`;
 		}
 	}
 	if (source.startsWith("cast 1 ")) {
 		var skill = Skill.get(source.slice(7));
 		var turns = turnsPerCast(skill);
-		return `*[[${skill.name}]] (${turns} Adventures)`;
+		var wikiName = urlDecode(encodedWikiName(skill)).replaceAll("_", " ");
+		return `*${wikiLink(wikiName, skill.name)} (${turns} Adventures)`;
 	}
 	return `*[[AAAAAAAAAAA]] (X Adventures) [${source}]`;
+}
+
+function encodedWikiName(source) {
+	return toWikiUrl(source).split("/").at(-1);
+}
+
+function wikiLink(wikiName, name) {
+	if (name === wikiName) {
+		return `[[${name}]]`;
+	}
+	return `[[${wikiName}|${name}]]`;
 }
 
 function main(args) {
