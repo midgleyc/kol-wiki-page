@@ -9,11 +9,13 @@ function replaceElements(input) {
 	.replace("<font color=green>Stench Damage</font>", "{{element|Stench}}")
 	.replace("<font color=red>Hot Damage</font>", "{{element|Hot}}")
 	.replace("<font color=blueviolet>Sleaze Damage</font>", "{{element|Sleaze}}")
+	.replace("<font color=purple>Sleaze Damage</font>", "{{element|Sleaze}}")
 	.replace("<font color=blue>Cold Spells</font>", "{{element|Cold|Spells}}")
 	.replace("<font color=gray>Spooky Spells</font>", "{{element|Spooky|Spells}}")
 	.replace("<font color=green>Stench Spells</font>", "{{element|Stench|Spells}}")
 	.replace("<font color=red>Hot Spells</font>", "{{element|Hot|Spells}}")
 	.replace("<font color=blueviolet>Sleaze Spells</font>", "{{element|Sleaze|Spells}}")
+	.replace("<font color=purple>Sleaze Spells</font>", "{{element|Sleaze|Spells}}")
 }
 
 function replaceImage(image) {
