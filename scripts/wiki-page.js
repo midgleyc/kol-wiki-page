@@ -375,7 +375,9 @@ function encodedWikiName(source) {
 }
 
 function wikiLink(wikiName, name) {
-	if (name === wikiName) {
+	// wiki name always starts with an uppercase
+	const testName = name.substr(0, 1).toUpperCase() + name.substring(1);
+	if (testName === wikiName) {
 		return `[[${name}]]`;
 	}
 	return `[[${wikiName}|${name}]]`;
