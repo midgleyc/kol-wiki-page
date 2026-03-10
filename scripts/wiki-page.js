@@ -237,7 +237,10 @@ function item(id) {
 		props.set('notrade', 1);
 	}
 	if (it.discardable) {
-		props.set('autosell', autosellPrice(it));
+		const price = autosellPrice(it);
+		if (price > 0) {
+			props.set('autosell', price);
+		}
 	} else {
 		props.set('autosell', 0)
 	}
