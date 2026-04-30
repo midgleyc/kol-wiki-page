@@ -163,7 +163,7 @@ function item(id) {
 	props.set('descid', it.descid);
 	props.set('desc', desc);
 	// this doesn't match food or booze, for which we use mafia's type
-	const typeMatch = page.match('<br>Type: <b>([^<]+)</b>(</b>)?<[Bb]r>')
+	const typeMatch = page.match('<br>Type: <b>([^<]+)</b>')
 	const mafiaType = itemType(it);
 	let type = typeMatch && typeMatch.length > 1 ? typeMatch[1] : mafiaType
 	if (type.endsWith(' (decent)')) {
@@ -333,6 +333,9 @@ function effect(id) {
 	var text = `<includeonly>{{{{{format}}}|
 	name=${eff.name}|
 	image=${replaceImage(eff.image)}|
+	effectid=${id}|
+	descid=${eff.descid}|
+	desc=${desc}|
 	effect=${replaceElements(effect)}|
 	{{{1|}}}}}</includeonly><noinclude>{{{{FULLPAGENAME}}|format=effect/meta}}</noinclude>`
 	printHtml(text.replace(/</g, '&lt;'));
@@ -343,11 +346,7 @@ function effect(id) {
 	var link = `https://wiki.kingdomofloathing.com/index.php?title=${wikiTitle}&action=edit`
 	printHtml(`<a href="${link}">${link}</a>`)
 	print();
-	var text = `{{effect
-	|effectid=${id}
-	|descid=${eff.descid}
-	|desc=${desc}
-	}}
+	var text = `{{effect}}
 	
 	==Obtained From==
 	${obtain.length > 0 ? obtain.join('\n') : "*[[AAAAAAAAAAA]] (X Adventures)"}`
