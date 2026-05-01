@@ -364,7 +364,11 @@ function convertEffectSourceToWikiString(source) {
 		}
 	}
 	if (source.startsWith("cast 1 ")) {
-		var skill = Skill.get(source.slice(7));
+		var sk = source.slice(7);
+		if (sk.includes(" ^ ")) {
+			sk = sk.slice(0, sk.indexOf(" ^ "))
+		}
+		var skill = Skill.get(sk);
 		var turns = turnsPerCast(skill);
 		var wikiName = urlDecode(encodedWikiName(skill)).replaceAll("_", " ");
 		return `*${wikiLink(wikiName, skill.name)} (${turns} Adventures)`;
