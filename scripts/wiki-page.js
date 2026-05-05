@@ -207,7 +207,7 @@ function item(id) {
 	if (type == 'booze') {
 		usable = true;
 		props.set('quality', it.quality || '!')
-		props.set('size', it.inebriety)
+		props.set('potency', it.inebriety)
 		if (it.levelreq != 1) {
 			props.set('level', it.levelreq)
 		}
