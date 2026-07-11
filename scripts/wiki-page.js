@@ -25,13 +25,13 @@ function replaceImage(image) {
 	return image;
 }
 
-function makeTemplate(name, map, includeNewlines) {
+function makeTemplate(name, map, includeNewlines, data) {
 	const n = includeNewlines ? '\n' : '';
 	let t = '{{' + name;
 	for (let [k, v] of map) {
-		t += `${n}|` + k + '=' + v;
+		t += `${data ? '|' : ''}${n}${data ? '' : '|'}` + k + '=' + v;
 	}
-	t += n + '}}'
+	t += (data ? `|${n}{{{1|}}}` : n) + '}}'
 	return t;
 }
 
@@ -64,23 +64,10 @@ function skill(id) {
 	} else {
 		type = "Noncombat";
 	}
-
-	var wikiTitle = encodedWikiName(sk);
 	
-	var data_link = `https://wiki.kingdomofloathing.com/index.php?title=Data:${wikiTitle}&action=edit`;
-	printHtml(`<a href="${data_link}">${data_link}</a>`)
-	print();
-	var text = `<includeonly>{{{{{format}}}|
-	name=${sk.name}|
-	image=${replaceImage(sk.image)}|
-	{{{1|}}}}}</includeonly><noinclude>{{{{FULLPAGENAME}}|format=skill/meta}}</noinclude>`
-	printHtml(text.replace(/</g, '&lt;'));
-	print();
-	
-	var link = `https://wiki.kingdomofloathing.com/index.php?title=${wikiTitle}&action=edit`
-	printHtml(`<a href="${link}">${link}</a>`)
-	print();
 	var props = new Map();
+	props.set('name', sk.name)
+	props.set('image', replaceImage(sk.image));
 	props.set('skillid', id);
 	props.set('description', desc);
 	if (effect != '') {
@@ -97,7 +84,21 @@ function skill(id) {
 	props.set('source', sources.length > 0 ? sources.map(x => `[[${x}]]`).join(", ") : '[[AAAAAAAAAA]]');
 	props.set('explain', '');
 	props.set('usemsg', '');
-	var text = makeTemplate('skill', props, true);
+
+	var wikiTitle = encodedWikiName(sk);
+	
+	var data_link = `https://wiki.kingdomofloathing.com/index.php?title=Data:${wikiTitle}&action=edit`;
+	printHtml(`<a href="${data_link}">${data_link}</a>`)
+	print();
+	var text = makeTemplate('{{{format}}}', props, true, true);
+	text = `<includeonly>${text}</includeonly><noinclude>{{{{FULLPAGENAME}}|format=skill/meta}}</noinclude>`
+	printHtml(text.replace(/</g, '&lt;'));
+	print();
+
+	var link = `https://wiki.kingdomofloathing.com/index.php?title=${wikiTitle}&action=edit`
+	printHtml(`<a href="${link}">${link}</a>`)
+	print();
+	var text = `{{skill}}`
 	printHtml(text.replace(/</g, '&lt;'));
 	print();
 }
@@ -139,26 +140,13 @@ function item(id) {
 		print(page)
 		effect = ""
 	}
-
-	var wikiTitle = encodedWikiName(it);
 	
-	var data_link = `https://wiki.kingdomofloathing.com/index.php?title=Data:${wikiTitle}&action=edit`;
-	printHtml(`<a href="${data_link}">${data_link}</a>`)
-	print();
-	var text = `<includeonly>{{{{{format}}}|
-	name=${it.name}|
-	plural=${it.plural}|
-	image=${replaceImage(it.image)}|
-	{{{1|}}}}}</includeonly><noinclude>{{{{FULLPAGENAME}}|format=item/meta}}</noinclude>`
-	printHtml(text.replace(/</g, '&lt;'));
-	print();
-	
-	var link = `https://wiki.kingdomofloathing.com/index.php?title=${wikiTitle}&action=edit`
-	printHtml(`<a href="${link}">${link}</a>`)
-	print();
 	var props = new Map();
 	var usableProps = new Map();
 	let usable = it.usable;
+	props.set('name', it.name);
+	props.set('plural', it.plural);
+	props.set('image', replaceImage(it.image));
 	props.set('itemid', id);
 	props.set('descid', it.descid);
 	props.set('desc', desc);
@@ -252,6 +240,9 @@ function item(id) {
 	if (it.pasteable) {
 		props.set('paste', 1)
 	}
+	if (it.smithable) {
+		props.set('smith', 1)
+	}
 	if (it.cookable) {
 		props.set('cook', 1)
 	}
@@ -292,7 +283,21 @@ function item(id) {
 			usableProps.set("mox", "gain " + mox);
 		}
 	}
-	var text = makeTemplate('item', props, true) + `
+
+	var wikiTitle = encodedWikiName(it);
+	
+	var data_link = `https://wiki.kingdomofloathing.com/index.php?title=Data:${wikiTitle}&action=edit`;
+	printHtml(`<a href="${data_link}">${data_link}</a>`)
+	print();
+	var text = makeTemplate('{{{format}}}', props, true, true);
+	text = `<includeonly>${text}</includeonly><noinclude>{{{{FULLPAGENAME}}|format=item/meta}}</noinclude>`
+	printHtml(text.replace(/</g, '&lt;'));
+	print();
+
+	var link = `https://wiki.kingdomofloathing.com/index.php?title=${wikiTitle}&action=edit`
+	printHtml(`<a href="${link}">${link}</a>`)
+	print();
+	var text = `{{item}}
 
 	==Obtained From==
 	${itemObtainedFrom(it)}${usable ? `
